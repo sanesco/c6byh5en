@@ -17,7 +17,7 @@ module Api
       end
 
       def create
-        @product = Product.new(product_params)
+        product = Product.new(product_params)
         # if product.save
         #
         #     render json: {
@@ -33,7 +33,7 @@ module Api
 
 
     #respond_to do |format|
-      if @product.save
+      if product.save
         #format.html { redirect_to @product, notice: 'Product was successfully created.' }
         #format.json { render :show, status: :created, location: @product }
         render json: product, status: :created
