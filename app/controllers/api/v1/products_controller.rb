@@ -33,11 +33,20 @@ module Api
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render :show, status: :ok, location: @product }
+        #format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        #format.json { render :show, status: :created, location: @product }
+        render json: {
+          status: 201,
+          message: "Product was successfully created.",
+          product: @product
+        }.to_json
       else
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        #format.html { render :new }
+        #format.json { render json: @product.errors, status: :unprocessable_entity }
+        render json: {
+             status: 422,
+             errors: @product.errors
+        }.to_json
       end
     end
       end
@@ -63,7 +72,7 @@ module Api
          respond_to do |format|
                if @product.update(article_params)
                  format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-                 format.json { render :show, status: :created, location: @product }
+                 format.json { render :show, status: :ok, location: @product }
                else
                  format.html { render :edit }
                  format.json { render json: @product.errors, status: :unprocessable_entity }
