@@ -61,7 +61,7 @@ module Api
          respond_to do |format|
                if @product.update(article_params)
                  format.html { redirect_to @product, notice: 'Article was successfully updated.' }
-                 format.json { render :show, status: :ok, location: @product }
+                 format.json { render :show, status: :created, location: @product }
                else
                  format.html { render :edit }
                  format.json { render json: @product.errors, status: :unprocessable_entity }
