@@ -8,7 +8,9 @@ module Api
           format.json { render json: @products }
         end
       end
-
+      def show
+        @product = Product.find(params[:id])
+      end
       def new
         @product = Product.new
       end
@@ -31,7 +33,7 @@ module Api
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Article was successfully created.' }
+        format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
         format.html { render :new }
@@ -60,7 +62,7 @@ module Api
          #  end
          respond_to do |format|
                if @product.update(article_params)
-                 format.html { redirect_to @product, notice: 'Article was successfully updated.' }
+                 format.html { redirect_to @product, notice: 'Product was successfully updated.' }
                  format.json { render :show, status: :created, location: @product }
                else
                  format.html { render :edit }
