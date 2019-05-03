@@ -1,6 +1,7 @@
 module Api
   module V1
     class ProductsController < ApplicationController
+      protect_from_forgery with: :null_session
       def index
         @products = Product.all
          respond_to do |format|
@@ -31,32 +32,25 @@ module Api
         # end
 
 
-    respond_to do |format|
+    #respond_to do |format|
       if @product.save
         #format.html { redirect_to @product, notice: 'Product was successfully created.' }
         #format.json { render :show, status: :created, location: @product }
-        render json: {
-          status: 201,
-          message: "Product was successfully created.",
-          product: @product
-        }.to_json
+        render json: product, status: :created
       else
         #format.html { render :new }
         #format.json { render json: @product.errors, status: :unprocessable_entity }
-        render json: {
-             status: 422,
-             errors: @product.errors
-        }.to_json
+        render json: {errors: product.errors}, status: :unprocessable_entity
       end
-    end
+    #end
       end
 
       def edit
         @product = Product.find(params[:id])
       end
 
-      def update
-        @product = Product.update(params[:id], product_params)
+      #def update
+      #  @product = Product.update(params[:id], product_params)
          # if product.update(product_params)
          #   render json: {
          #    status: 200
@@ -69,16 +63,16 @@ module Api
          #      errors: product.errors
          #    }
          #  end
-         respond_to do |format|
-               if @product.update(article_params)
-                 format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-                 format.json { render :show, status: :ok, location: @product }
-               else
-                 format.html { render :edit }
-                 format.json { render json: @product.errors, status: :unprocessable_entity }
-               end
-             end
-      end
+         # respond_to do |format|
+         #       if @product.update(article_params)
+         #         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+         #         format.json { render :show, status: :ok, location: @product }
+         #       else
+         #         format.html { render :edit }
+         #         format.json { render json: @product.errors, status: :unprocessable_entity }
+         #       end
+         #     end
+      #end
       # def destroy
       #   product = Product.find(params[:id])
       #   product.destroy
