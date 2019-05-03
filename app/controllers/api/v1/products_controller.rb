@@ -14,7 +14,30 @@ module Api
       end
 
       def create
-        @product = Product.create(product_params)
+        @product = Product.new(product_params)
+        # if product.save
+        #
+        #     render json: {
+        #       status: 201,
+        #       #product: product
+        #     }.to_json
+        # else
+        #   render json: {
+        #     status: 422,
+        #     errors: product.errors
+        #   }.to_json
+        # end
+
+
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to @product, notice: 'Article was successfully created.' }
+        format.json { render :show, status: :created, location: @product }
+      else
+        format.html { render :new }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
       end
 
       def edit
@@ -23,7 +46,36 @@ module Api
 
       def update
         @product = Product.update(params[:id], product_params)
+         # if product.update(product_params)
+         #   render json: {
+         #    status: 200
+         #  }
+         #
+         #  else
+         #
+         #    render json: {
+         #      status: 422,
+         #      errors: product.errors
+         #    }
+         #  end
+         respond_to do |format|
+               if @product.update(article_params)
+                 format.html { redirect_to @product, notice: 'Article was successfully updated.' }
+                 format.json { render :show, status: :ok, location: @product }
+               else
+                 format.html { render :edit }
+                 format.json { render json: @product.errors, status: :unprocessable_entity }
+               end
+             end
       end
+      # def destroy
+      #   product = Product.find(params[:id])
+      #   product.destroy
+      #
+      #   render json: {
+      #     status: 204
+      #   }
+      # end
 
       private
         def product_params
