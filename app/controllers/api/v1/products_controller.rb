@@ -2,6 +2,7 @@ module Api
   module V1
     class ProductsController < ApplicationController
       protect_from_forgery with: :null_session
+      before_action :set_product, only: [:update, :destroy]
       def index
         @products = Product.all
          respond_to do |format|
@@ -44,6 +45,18 @@ module Api
       end
     #end
       end
+      def update
+      				if @product.update(product_params)
+      					render json: @product, status: :ok
+      				else
+
+      					render json: { errors: @product.errors }, status: :unprocessable_entity #422
+      				end
+      end
+      def destroy
+      				@product.destroy
+      				head :no_content #204
+    	end
 
       def edit
         @product = Product.find(params[:id])
@@ -83,6 +96,9 @@ module Api
       # end
 
       private
+        def set_product
+          @product = Product.find(params[:id])
+        end
         def product_params
           params.require(:product).permit(:name, :price)
         end
